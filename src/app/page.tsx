@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { useEffect } from 'react'
+import Link from 'next/link'
 
 export default function Home() {
 
@@ -20,8 +21,9 @@ export default function Home() {
   )
   
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      470 Project!
-    </main>
+    <div>
+      <h1>Welcome to our 470 Project </h1>
+    <Link href = "/signup">SignUp</Link>
+    </div>
   )
 }
