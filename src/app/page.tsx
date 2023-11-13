@@ -24,6 +24,8 @@ export default function Home() {
     <div>
       <h1>Welcome to our 470 Project </h1>
     <Link href = "/signup">SignUp</Link>
+    <br></br>
+    <Link href = "/login">Login</Link>
     </div>
   )
 }

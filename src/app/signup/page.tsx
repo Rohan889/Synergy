@@ -66,6 +66,7 @@ export default function SignUp() {
               if (!response.ok) {
                 throw new Error('Network response was not ok');
               }
+              alert("You have successfully signed up to Synergy"); 
               const data = await response.json();
               console.log('API Response:', data);
             } catch (error) {
@@ -93,7 +94,7 @@ export default function SignUp() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <h1>Sign Up</h1>
-      <form onSubmit={submit} className="flex flex-col gap-4">
+      <form onSubmit={submit} className="flex flex-col gap-4" style={{ color: 'blue' }}>
         <input
           type="text"
           placeholder="Username"
