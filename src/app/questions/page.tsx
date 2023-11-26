@@ -10,6 +10,15 @@ export default function SignUp() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const [ratings, setRatings] = useState({});
+  const jobs = [
+    { id: 'a', title: 'Job A' },
+    { id: 'b', title: 'Job B' },
+    { id: 'c', title: 'Job C' },
+    { id: 'd', title: 'Job D' },
+    { id: 'e', title: 'Job E' }
+  ];
+
  
 
   //this is how you would get data. 
@@ -95,9 +104,24 @@ export default function SignUp() {
 
   return (
     <div>
-    <h1>Questions</h1>
-    <h1> Why do you want to learn</h1>
-    
+      <h1>Rate Jobs</h1>
+      {jobs.map(job => (
+        <div key={job.id}>
+          <h2>{job.title}</h2>
+          {[1, 2, 3, 4, 5].map(rating => (
+            <label key={rating}>
+              <input
+                type="radio"
+                name={`rating-${job.id}`}
+                value={rating}
+              
+              />
+              {rating}
+            </label>
+          ))}
+        </div>
+      ))}
+      
     </div>
   );
 }
