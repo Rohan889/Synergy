@@ -1,15 +1,23 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Router, useRouter } from 'next/router';
 
 
 
 
 export default function SignUp() {
+  
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isMounted, setIsMounted] = useState(false);
+  //const router = useRouter();
 
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
  
   const check = async(event) => {
+ 
     if(username == ""){
         alert("Username is required"); 
       }
@@ -35,6 +43,14 @@ export default function SignUp() {
                 }
                 else{
                     alert("You have placed the right credentials "); 
+                    if(data1.answered == "no"){
+                        try{
+                        window.location.href = '/questions';
+                        }
+                        catch(error){
+                            console.log(error); 
+                        }
+                    }
                 }
             }
             console.log(data1.message); 

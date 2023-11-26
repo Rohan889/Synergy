@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+
 //import axios from 'axios';
 import Parse from 'parse/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -93,25 +94,10 @@ export default function SignUp() {
   
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <h1>Sign Up</h1>
-      <form onSubmit={submit} className="flex flex-col gap-4" style={{ color: 'blue' }}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="border-2 border-gray-200 p-2"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="border-2 border-gray-200 p-2"
-        />
-        <button type="submit" className="bg-blue-500 text-white p-2">Sign Up</button>
-      </form>
-    </main>
+    <div>
+    <h1>Questions</h1>
+    <h1> Why do you want to learn</h1>
+    
+    </div>
   );
 }
