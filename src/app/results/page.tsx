@@ -39,14 +39,16 @@ export default function SignUp() {
       })
       .then(data => {
         const answeredValues = data.map(item => item.answers);
-        sendArraysToFlask(ratingsList, answeredValues);
+        sendArraysToFlask(ratingsList, answeredValues,data);
       })
       .catch(error => {
         console.error('There has been a problem with your fetch operation:', error);
       });
   
-    const sendArraysToFlask = (ratingsList, answeredValues) => {
-      fetch('http://localhost:5000/run', {  // Replace with your Flask API URL
+    const sendArraysToFlask = (ratingsList, answeredValues, data1) => {
+      console.log(ratingsList);
+      console.log(answeredValues); 
+      fetch('http://localhost:5000/run', { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -55,7 +57,11 @@ export default function SignUp() {
       })
       .then(response => response.json())
       .then(data => {
-        console.log(data);  // Process the response from Flask
+        console.log("This is answer"); 
+        console.log(data);
+        console.log(data1[data[0]].Job);
+        console.log(data1[data[1]].Job); 
+        console.log(data1[data[2]].Job);   
       })
       .catch(error => {
         console.error('Error:', error);

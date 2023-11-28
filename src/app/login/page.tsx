@@ -44,7 +44,7 @@ export default function SignUp() {
                 }
                 else{
                     alert("You have placed the right credentials "); 
-                    if(data1.answered == "Yes"){
+                    if(data1.answered == "Yes" || data1.answered == "no"){
                         try{
                         localStorage.setItem('username', username);
                         window.location.href = '/questions';
