@@ -47,7 +47,9 @@ export default function SignUp() {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
+      
       alert("You have successfully signed up to Synergy"); 
+      window.location.href = '/results';
       const data = await response.json();
       console.log('API Response:', data);
     } catch (error) {

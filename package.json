@@ -12,7 +12,7 @@
     "@react-native-async-storage/async-storage": "^1.19.5",
     "axios": "^1.6.1",
     "dotenv": "^16.3.1",
-    "langchain": "^0.0.197-rc.1",
+    "langchain": "^0.0.197",
     "next": "14.0.2",
     "parse": "^4.2.0",
     "react": "^18",
