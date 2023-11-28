@@ -19,6 +19,8 @@ export default function SignUp() {
     { id: 'e', title: 'Job E' }
   ];
 
+  const questions = ["How Analytical are you?", "Do you like interacting with people?", "How well creative are you?", "How well do you work on a team?", "How much do you enjoy hands on work?", "Do you enjoy working outdoors?", "Do you enjoy travelling?","How much do you value work life balance?"]
+
  
 
   //this is how you would get data. 
@@ -103,10 +105,11 @@ export default function SignUp() {
   
 
   return (
-    <div>
-      <h1>Rate Jobs</h1>
-      {jobs.map(job => (
-        <div key={job.id}>
+    <div className='flex bg-gray-300 flex-col h-screen text-center '>
+      <h1 className='text-black text-xl'>Rate Interests</h1>
+      {/* {jobs.map(job => (
+        <div className='' key={job.id}>
+          
           <h2>{job.title}</h2>
           {[1, 2, 3, 4, 5].map(rating => (
             <label key={rating}>
@@ -118,9 +121,30 @@ export default function SignUp() {
               />
               {rating}
             </label>
-          ))}
+          ))} */}
+          {questions.map(question => (
+            <div className='' key={question}>
+                
+                <h2 className='text-black text-xl'>{question}</h2>
+                {[1, 2, 3, 4, 5].map(rating => (
+                  <label className='mx-2.5' key={rating}>
+                    <input
+                      className='w-8 text-black h-4'
+                      type="radio"
+                      name={`rating-${question}`}
+                      value={rating}
+                      color='black'
+                      size={50}
+                    />
+                    {rating}
+                  </label>
+                ))}
         </div>
       ))}
+<div className='my-2.5'>
+<button className='bg-blue-500 text-black p-2'>Submit</button>
+</div>
+
       
     </div>
   );
