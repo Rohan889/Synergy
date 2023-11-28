@@ -32,7 +32,7 @@ export default function SignUp() {
     
     const ratingsValues = Object.values(ratings).map(value => value.toString()).join('');
     const ratingsNumber = parseInt(ratingsValues, 10);
-  
+    localStorage.setItem('ratingsValues', ratingsValues);
     const apiUrl = 'https://x8ki-letl-twmt.n7.xano.io/api:vHPGaF5w/data';
 
     try {
