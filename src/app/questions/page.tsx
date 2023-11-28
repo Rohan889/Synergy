@@ -9,8 +9,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function SignUp() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
   const [ratings, setRatings] = useState({});
+  const[answered, setAnswered] = useState(''); 
   const jobs = [
     { id: 'a', title: 'Job A' },
     { id: 'b', title: 'Job B' },
@@ -21,7 +21,41 @@ export default function SignUp() {
 
   const questions = ["How Analytical are you?", "Do you like interacting with people?", "How well creative are you?", "How well do you work on a team?", "How much do you enjoy hands on work?", "Do you enjoy working outdoors?", "Do you enjoy travelling?","How much do you value work life balance?"]
 
- 
+  const handleRatingChange = (questions, rating) => {
+    setRatings(prevRatings => ({ ...prevRatings, [questions]: rating }));
+  };
+
+  const handleButtonClick = async() => {
+    const i = localStorage.getItem('username'); 
+    console.log("this is " + i); 
+    
+    
+    const ratingsValues = Object.values(ratings).map(value => value.toString()).join('');
+    const ratingsNumber = parseInt(ratingsValues, 10);
+  
+    const apiUrl = 'https://x8ki-letl-twmt.n7.xano.io/api:vHPGaF5w/data';
+
+    try {
+      const answered = "no"; 
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: i, answers: ratingsNumber}),
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      alert("You have successfully signed up to Synergy"); 
+      const data = await response.json();
+      console.log('API Response:', data);
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+      // Handle errors here
+    }
+    
+  };
 
   //this is how you would get data. 
   const handleSubmit = async (event) => {
@@ -107,45 +141,28 @@ export default function SignUp() {
   return (
     <div className='flex bg-gray-300 flex-col h-screen text-center '>
       <h1 className='text-black text-xl'>Rate Interests</h1>
-      {/* {jobs.map(job => (
-        <div className='' key={job.id}>
-          
-          <h2>{job.title}</h2>
+      {questions.map(question => (
+        <div className='' key={question}>
+          <h2 className='text-black text-xl'>{question}</h2>
           {[1, 2, 3, 4, 5].map(rating => (
-            <label key={rating}>
+            <label className='mx-2.5' key={rating}>
               <input
+                className='w-8 text-black h-4'
                 type="radio"
-                name={`rating-${job.id}`}
+                name={`rating-${question}`}
                 value={rating}
-              
+                color='black'
+                size={50}
+                onChange={() => handleRatingChange(question, rating)}
               />
               {rating}
             </label>
-          ))} */}
-          {questions.map(question => (
-            <div className='' key={question}>
-                
-                <h2 className='text-black text-xl'>{question}</h2>
-                {[1, 2, 3, 4, 5].map(rating => (
-                  <label className='mx-2.5' key={rating}>
-                    <input
-                      className='w-8 text-black h-4'
-                      type="radio"
-                      name={`rating-${question}`}
-                      value={rating}
-                      color='black'
-                      size={50}
-                    />
-                    {rating}
-                  </label>
-                ))}
+          ))}
         </div>
       ))}
-<div className='my-2.5'>
-<button className='bg-blue-500 text-black p-2'>Submit</button>
-</div>
-
-      
+      <div className='my-2.5'>
+        <button onClick={handleButtonClick}>Submit Ratings</button>
+      </div>
     </div>
   );
 }

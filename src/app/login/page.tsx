@@ -34,6 +34,7 @@ export default function SignUp() {
       try{
             const response1 = await fetch(apiurl1); 
             const data1 = await response1.json();
+          
             if(data1.message == "Not Found"){
                 alert("Sorry but you do not have an account"); 
             }
@@ -43,8 +44,9 @@ export default function SignUp() {
                 }
                 else{
                     alert("You have placed the right credentials "); 
-                    if(data1.answered == "no"){
+                    if(data1.answered == "Yes"){
                         try{
+                        localStorage.setItem('username', username);
                         window.location.href = '/questions';
                         }
                         catch(error){
