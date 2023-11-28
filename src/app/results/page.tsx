@@ -17,29 +17,22 @@ export default function SignUp() {
     { id: "d", title: "Job D" },
     { id: "e", title: "Job E" },
   ];
+
   const handleSubmitButton = async () => {
-      //Route to the next page
-      console.log("Username:", username, "Password:", password);
-      try{
-        window.location.href = '/results';
-        }
-        catch(error){
-            console.log(error); 
-        }
+    //Route to the next page
+    console.log("Username:", username, "Password:", password);
+    try{
+      window.location.href = '/results';
+      }
+      catch(error){
+          console.log(error); 
+      }
 
-  }
+}
 
-  const questions = [
-    "How Analytical are you?",
-    "Do you like interacting with people?",
-    "How well creative are you?",
-    "How well do you work on a team?",
-    "How much do you enjoy hands on work?",
-    "Do you enjoy working outdoors?",
-    "Do you enjoy travelling?",
-    "How much do you value work life balance?",
-  ];
+  const results = [{"Job Title": "Job A", "Job_Description":"jfkldajslsfkjflaksdjflak;sdjfl;askd","Salary":"100k" },{"Job Title": "Job B", "Job_Description":"jfkldajslsfkjflaksdjflak;sdjfl;askd","Salary":"100k" },{"Job Title": "Job C", "Job_Description":"jfkldajslsfkjflaksdjflak;sdjfl;askd","Salary":"100k"}]
 
+  
   //this is how you would get data.
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -124,40 +117,17 @@ export default function SignUp() {
 
   return (
     <div className="flex bg-gray-300 flex-col h-screen text-center ">
-      <h1 className="text-black text-xl">Rate Interests</h1>
-      {/* {jobs.map(job => (
-        <div className='' key={job.id}>
-          
-          <h2>{job.title}</h2>
-          {[1, 2, 3, 4, 5].map(rating => (
-            <label key={rating}>
-              <input
-                type="radio"
-                name={`rating-${job.id}`}
-                value={rating}
-              
-              />
-              {rating}
-            </label>
-          ))} */}
-      {questions.map((question) => (
-        <div className="" key={question}>
-          <h2 className="text-black text-xl">{question}</h2>
-          {[1, 2, 3, 4, 5].map((rating) => (
-            <label className="mx-2.5" key={rating}>
-              <input
-                className="w-8 text-black h-4"
-                type="radio"
-                name={`rating-${question}`}
-                value={rating}
-                color="black"
-                size={50}
-              />
-              {rating}
-            </label>
-          ))}
-        </div>
-      ))}
+      <h1 className="text-black text-xl">Results</h1>
+      <div className="flex flex-row justify-between mx-20 h-full mb-44">
+        {results.map((result) => (
+            // eslint-disable-next-line react/jsx-key
+            <div className="flex flex-col bg-white rounded-lg shadow-lg p-4 h-content">
+                <h1 className="text-black text-xl">{result["Job Title"]}</h1>
+                <h1 className="text-black text-xl">{result["Job_Description"]}</h1>
+                <h1 className="text-black text-xl">{result["Salary"]}</h1>
+            </div>
+        ))}
+      </div>
       <div className="my-2.5">
         <button  onClick={handleSubmitButton} className="bg-blue-500 text-black p-2">Submit</button>
       </div>
