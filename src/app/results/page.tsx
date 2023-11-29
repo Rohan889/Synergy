@@ -9,6 +9,9 @@ export default function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [data, setData] = useState(null);
+  const [job1, setjob1] = useState("");
+  const [job2, setjob2] = useState("");
+  const [job3, setjob3] = useState("");
 
   const [ratings, setRatings] = useState({});
   const jobs = [
@@ -60,6 +63,9 @@ export default function SignUp() {
         console.log("This is answer"); 
         console.log(data);
         console.log(data1[data[0]].Job);
+        setjob1(data1[data[0]].Job); 
+        setjob2(data1[data[1]].Job); 
+        setjob3(data1[data[2]].Job); 
         console.log(data1[data[1]].Job); 
         console.log(data1[data[2]].Job);   
       })
