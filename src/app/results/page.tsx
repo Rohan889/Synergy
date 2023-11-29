@@ -1,9 +1,10 @@
 "use client";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 
 //import axios from 'axios';
 import Parse from "parse/react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { POST } from "../api/route";
 
 export default function SignUp() {
   const [username, setUsername] = useState("");
@@ -12,84 +13,122 @@ export default function SignUp() {
   const [job1, setjob1] = useState("");
   const [job2, setjob2] = useState("");
   const [job3, setjob3] = useState("");
+  const [jobs, setJobs] = useState([]);
 
   const [ratings, setRatings] = useState({});
-  const jobs = [
-    { id: "a", title: "Job A" },
-    { id: "b", title: "Job B" },
-    { id: "c", title: "Job C" },
-    { id: "d", title: "Job D" },
-    { id: "e", title: "Job E" },
-  ];
 
   useEffect(() => {
-    const value = localStorage.getItem('ratingsValues');
+    const value = localStorage.getItem("ratingsValues");
     let ratingsList = [];
-  
+
     if (value) {
-      ratingsList = Array.from(value).map(char => parseInt(char, 10));
+      ratingsList = Array.from(value).map((char) => parseInt(char, 10));
     } else {
       console.log("No value found in local storage for 'ratingsValues'");
     }
-  
-    const apiurl = 'https://x8ki-letl-twmt.n7.xano.io/api:vHPGaF5w/credentials'; 
+
+    const apiurl = "https://x8ki-letl-twmt.n7.xano.io/api:vHPGaF5w/credentials";
     fetch(apiurl)
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText);
+          throw new Error("Network response was not ok " + response.statusText);
         }
         return response.json();
       })
-      .then(data => {
-        const answeredValues = data.map(item => item.answers);
-        sendArraysToFlask(ratingsList, answeredValues,data);
+      .then((data) => {
+        const answeredValues = data.map((item) => item.answers);
+        sendArraysToFlask(ratingsList, answeredValues, data);
       })
-      .catch(error => {
-        console.error('There has been a problem with your fetch operation:', error);
+      .catch((error) => {
+        console.error(
+          "There has been a problem with your fetch operation:",
+          error
+        );
       });
-  
+
     const sendArraysToFlask = (ratingsList, answeredValues, data1) => {
       console.log(ratingsList);
-      console.log(answeredValues); 
-      fetch('http://localhost:5000/run', { 
-        method: 'POST',
+      console.log(answeredValues);
+      fetch("http://localhost:5000/run", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userList: ratingsList, databaseList: answeredValues }),
+        body: JSON.stringify({
+          userList: ratingsList,
+          databaseList: answeredValues,
+        }),
       })
-      .then(response => response.json())
-      .then(data => {
-        console.log("This is answer"); 
-        console.log(data);
-        console.log(data1[data[0]].Job);
-        setjob1(data1[data[0]].Job); 
-        setjob2(data1[data[1]].Job); 
-        setjob3(data1[data[2]].Job); 
-        console.log(data1[data[1]].Job); 
-        console.log(data1[data[2]].Job);   
-      })
-      .catch(error => {
-        console.error('Error:', error);
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("This is answer");
+          console.log(data);
+          console.log(data1[data[0]].Job);
+          setjob1(data1[data[0]].Job);
+          setjob2(data1[data[1]].Job);
+          setjob3(data1[data[2]].Job);
+          console.log(data1[data[1]].Job);
+          console.log(data1[data[2]].Job);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      var raw = JSON.stringify({
+        search: "consultant",
       });
+
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      fetch("http://localhost:3000/api/", requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+          setJobs(result);
+        });
     };
   }, []);
+
+  useEffect(() => {
+    console.log("This is...", jobs);
+  }, [jobs]);
 
   const handleSubmitButton = async () => {
     //Route to the next page
     console.log("Username:", username, "Password:", password);
-    try{
-      window.location.href = '/results';
-      }
-      catch(error){
-          console.log(error); 
-      }
+    try {
+      window.location.href = "/results";
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-}
+  const results = [
+    {
+      "Job Title": "Job A",
+      Job_Description: "jfkldajslsfkjflaksdjflak;sdjfl;askd",
+      Salary: "100k",
+    },
+    {
+      "Job Title": "Job B",
+      Job_Description: "jfkldajslsfkjflaksdjflak;sdjfl;askd",
+      Salary: "100k",
+    },
+    {
+      "Job Title": "Job C",
+      Job_Description: "jfkldajslsfkjflaksdjflak;sdjfl;askd",
+      Salary: "100k",
+    },
+  ];
 
-  const results = [{"Job Title": "Job A", "Job_Description":"jfkldajslsfkjflaksdjflak;sdjfl;askd","Salary":"100k" },{"Job Title": "Job B", "Job_Description":"jfkldajslsfkjflaksdjflak;sdjfl;askd","Salary":"100k" },{"Job Title": "Job C", "Job_Description":"jfkldajslsfkjflaksdjflak;sdjfl;askd","Salary":"100k"}]
-
-  
   //this is how you would get data.
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -177,16 +216,21 @@ export default function SignUp() {
       <h1 className="text-black text-xl">Results</h1>
       <div className="flex flex-row justify-between mx-20 h-full mb-44">
         {results.map((result) => (
-            // eslint-disable-next-line react/jsx-key
-            <div className="flex flex-col bg-white rounded-lg shadow-lg p-4 h-content">
-                <h1 className="text-black text-xl">{result["Job Title"]}</h1>
-                <h1 className="text-black text-xl">{result["Job_Description"]}</h1>
-                <h1 className="text-black text-xl">{result["Salary"]}</h1>
-            </div>
+          // eslint-disable-next-line react/jsx-key
+          <div className="flex flex-col bg-white rounded-lg shadow-lg p-4 h-content">
+            <h1 className="text-black text-xl">{result["Job Title"]}</h1>
+            <h1 className="text-black text-xl">{result["Job_Description"]}</h1>
+            <h1 className="text-black text-xl">{result["Salary"]}</h1>
+          </div>
         ))}
       </div>
       <div className="my-2.5">
-        <button  onClick={handleSubmitButton} className="bg-blue-500 text-black p-2">Submit</button>
+        <button
+          onClick={handleSubmitButton}
+          className="bg-blue-500 text-black p-2"
+        >
+          Submit
+        </button>
       </div>
     </div>
   );

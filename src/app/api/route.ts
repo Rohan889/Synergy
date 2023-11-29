@@ -17,6 +17,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("search");
 
+
   const data = await fetch(
     `http://localhost:3000/api`
   , {method: "POST", body: JSON.stringify({search: id}), headers: {"Content-Type": "application/json"}});
@@ -34,12 +35,13 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  console.log("request is ", request)
   const object = await request.json();
   var requestOptions = {
     method: 'GET',
     redirect: 'follow'
   };
-  
+  console.log("obj is ", object)
   const data = await fetch(`https://serpapi.com/search.json?engine=google_jobs&q=${object.search}&api_key=312e4ac293ce6ece05ec54c150ecc09ff635f2441331b8e14ba8671f136ab0c6`, requestOptions)
   const dataJson = await data.json();
 
