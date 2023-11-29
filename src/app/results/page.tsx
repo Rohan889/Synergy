@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 
 //import axios from 'axios';
 import Parse from "parse/react-native";
@@ -8,6 +8,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [data, setData] = useState(null);
+  const [job1, setjob1] = useState("");
+  const [job2, setjob2] = useState("");
+  const [job3, setjob3] = useState("");
 
   const [ratings, setRatings] = useState({});
   const jobs = [
@@ -17,6 +21,59 @@ export default function SignUp() {
     { id: "d", title: "Job D" },
     { id: "e", title: "Job E" },
   ];
+
+  useEffect(() => {
+    const value = localStorage.getItem('ratingsValues');
+    let ratingsList = [];
+  
+    if (value) {
+      ratingsList = Array.from(value).map(char => parseInt(char, 10));
+    } else {
+      console.log("No value found in local storage for 'ratingsValues'");
+    }
+  
+    const apiurl = 'https://x8ki-letl-twmt.n7.xano.io/api:vHPGaF5w/credentials'; 
+    fetch(apiurl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+      })
+      .then(data => {
+        const answeredValues = data.map(item => item.answers);
+        sendArraysToFlask(ratingsList, answeredValues,data);
+      })
+      .catch(error => {
+        console.error('There has been a problem with your fetch operation:', error);
+      });
+  
+    const sendArraysToFlask = (ratingsList, answeredValues, data1) => {
+      console.log(ratingsList);
+      console.log(answeredValues); 
+      fetch('http://localhost:5000/run', { 
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userList: ratingsList, databaseList: answeredValues }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log("This is answer"); 
+        console.log(data);
+        console.log(data1[data[0]].Job);
+        setjob1(data1[data[0]].Job); 
+        setjob2(data1[data[1]].Job); 
+        setjob3(data1[data[2]].Job); 
+        console.log(data1[data[1]].Job); 
+        console.log(data1[data[2]].Job);   
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    };
+  }, []);
 
   const handleSubmitButton = async () => {
     //Route to the next page

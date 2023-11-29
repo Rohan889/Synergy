@@ -10,7 +10,10 @@ export default function SignUp() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [ratings, setRatings] = useState({});
-  const[answered, setAnswered] = useState(''); 
+  const[answered, setAnswered] = useState('');
+  const[job1, setjob1] = useState(''); 
+  const[job2, setjob2] = useState(''); 
+  const[job3,setjob3] = useState(''); 
   const jobs = [
     { id: 'a', title: 'Job A' },
     { id: 'b', title: 'Job B' },
@@ -32,7 +35,7 @@ export default function SignUp() {
     
     const ratingsValues = Object.values(ratings).map(value => value.toString()).join('');
     const ratingsNumber = parseInt(ratingsValues, 10);
-  
+    localStorage.setItem('ratingsValues', ratingsValues);
     const apiUrl = 'https://x8ki-letl-twmt.n7.xano.io/api:vHPGaF5w/data';
 
     try {
